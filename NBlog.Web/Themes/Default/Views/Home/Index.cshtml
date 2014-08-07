@@ -1,7 +1,8 @@
 ﻿@model HomeController.IndexModel
 <article>
-
-    @if (Model.User.IsAdmin)
+@if (User.Identity.IsAuthenticated)
+{ 
+    if (Model.User.IsAdmin)
     {
         <div class="admin-box text-links">
             Admin:
@@ -23,5 +24,9 @@
         </li>
     }
     </ul>
-
+}
+else
+{
+    <button>Login with Facebook</button>
+}
 </article>

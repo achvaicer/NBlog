@@ -3,6 +3,10 @@
     ViewBag.Title = Model.Title + " | " + Model.Config.Heading;
 }
 
+@if (User.Identity.IsAuthenticated)
+{
+    
+
 <article class="entry">
     @if (Model.User.IsAdmin)
     {
@@ -49,7 +53,7 @@
     }
     
 </article>
-
+}
 @section Scripts {
     @if (Model.IsCodePrettified)
     {

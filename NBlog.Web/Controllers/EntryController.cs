@@ -15,6 +15,7 @@ namespace NBlog.Web.Controllers
     {
         public EntryController(IServices services) : base(services) { }
 
+        [Authorize]
         [HttpGet]
         public ActionResult Show([Bind(Prefix = "id")] string slug)
         {

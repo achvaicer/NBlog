@@ -40,11 +40,8 @@
 
 		<div id="topbar">
 			<div id="links" class="text-links">
-                @(Model.User.IsAuthenticated ? Html.Safe("<strong>" + Model.User.FriendlyName + "</strong> |") : Html.Blank())
-                @TwitterLink(@Model.Config.TwitterUsername)
-                @Html.ActionLink("RSS", "Index", "Feed") |
-                @Html.ActionLink("Contact", "Index", "Contact") |
-				@(Model.User.IsAuthenticated ? Html.ActionLink("Sign Out", "Logout", "Authentication") : Html.ActionLink("Sign In", "Login", "Authentication"))
+               @(Model.User.IsAuthenticated ? Html.Safe("<strong>" + Model.User.FriendlyName + "</strong> |") : Html.Blank())
+               @(Model.User.IsAuthenticated ? Html.ActionLink("Sign Out", "Logout", "Authentication") : Html.ActionLink("Sign In", "Login", "Authentication"))
 			</div>
 			<div id="search">
 				<form action="@Url.Action("Index", "Search")">
@@ -119,9 +116,3 @@
 </body>
 </html>
 
-@helper TwitterLink(string twitterUsername) {
-    if (!string.IsNullOrWhiteSpace(twitterUsername))
-    {
-         <a href="http://twitter.com/@twitterUsername" target="_blank">Twitter</a> <text>|</text> 
-    }
-}
