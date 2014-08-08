@@ -18,7 +18,7 @@ namespace NBlog.Web.Application.Storage.Json
         {
             get
             {
-                return HttpContext.Current.Server.MapPath("~/App_Data/" + _tenantSelector.Name);
+                return HttpContext.Current.Server.MapPath("~/App_Data/");
             }
         }
 

@@ -280,10 +280,10 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Jobs.config" />
     <Content Include="Jobs.Debug.config" />
-    <Content Include="App_Data\localhost\Config\settings.json" />
-    <Content Include="App_Data\localhost\Entry\fusce-eget-neque-molestie-lorem-vestibulum-accumsan-sed-nec-augue.json" />
-    <Content Include="App_Data\localhost\Entry\lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit.json" />
-    <Content Include="App_Data\localhost\Entry\pellentesque-orci-mauris-imperdiet-et-varius-id.json" />
+    <Content Include="App_Data\Config\settings.json" />
+    <Content Include="App_Data\Entry\fusce-eget-neque-molestie-lorem-vestibulum-accumsan-sed-nec-augue.json" />
+    <Content Include="App_Data\Entry\lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit.json" />
+    <Content Include="App_Data\Entry\pellentesque-orci-mauris-imperdiet-et-varius-id.json" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
