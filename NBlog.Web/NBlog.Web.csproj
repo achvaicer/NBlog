@@ -119,6 +119,9 @@
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
     </Reference>
+    <Reference Include="Facebook">
+      <HintPath>..\packages\Facebook.6.7.0\lib\net45\Facebook.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlSanitizationLibrary">
       <HintPath>..\packages\AntiXSS.4.2.1\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
     </Reference>
@@ -243,6 +246,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\facebook-login.png" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\dd_belatedpng.js" />
@@ -348,7 +352,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\Infrastructure\AdminOnlyAttribute.cs" />
+    <Compile Include="Application\AdminOnlyAttribute.cs" />
     <Compile Include="Application\Infrastructure\AutofacJobFactory.cs" />
     <Compile Include="Application\Infrastructure\BuildNumberProvider.cs" />
     <Compile Include="Application\Infrastructure\DateExtensions.cs" />

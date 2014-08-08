@@ -1,0 +1,9 @@
+{
+  "Slug": "teste-de-post",
+  "Title": "Teste de post",
+  "Author": "Alberto Chvaicer",
+  "DateCreated": "2014-08-08T00:00:00",
+  "Markdown": "Conteúdo do post\r\n\r\n\r\n * primeiro item\r\n * segundo item\r\n * terceiro item",
+  "IsPublished": true,
+  "IsCodePrettified": true
+}

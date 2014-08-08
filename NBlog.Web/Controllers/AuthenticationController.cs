@@ -7,11 +7,18 @@ using NBlog.Web.Application;
 using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service;
 using System;
+using System.Configuration;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Linq;
+using System.IO;
+using System.Net;
+using System.Text;
+using Facebook;
+using NBlog.Web.Application.Service.Entity;
 
 namespace NBlog.Web.Controllers
 {
@@ -22,11 +29,56 @@ namespace NBlog.Web.Controllers
         {
         }
 
-        [HttpGet]
-        public ActionResult Login(string returnUrl)
+        private static string ParseFacebookToken(string querystring)
         {
-            var model = new LoginModel { ReturnUrl = returnUrl.AsNullIfEmpty() ?? Url.Action("Index", "Home") };
-            return View(model);
+            var parametros = querystring.Split('&');
+            return parametros.First(x => x.Contains("access_token")).Split('=').Last();
+        }
+
+        private static StreamReader DoWebRequest(string url)
+        {
+            try
+            {
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                var response = (HttpWebResponse)request.GetResponse();
+                var reader = new StreamReader(response.GetResponseStream(), encoding: Encoding.ASCII);
+                return reader;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public ActionResult Facebook()
+        {
+
+            var facebookAppID = ConfigurationManager.AppSettings["FacebookAppID"];
+            var redirect = Services.Config.Current.Facebook.Redirect;
+            var facebookAppSecret = ConfigurationManager.AppSettings["FacebookAppSecret"];
+
+            if (string.IsNullOrEmpty(Request.QueryString["access_token"]) && string.IsNullOrEmpty(Request.QueryString["code"]))
+            {
+                var url = String.Format(Services.Config.Current.Facebook.RequestCode, facebookAppID, redirect);
+                return Redirect(url);
+            }
+            if (!string.IsNullOrEmpty(Request.QueryString["code"]))
+            {
+                var url = String.Format(Services.Config.Current.Facebook.RequestAccessToken, facebookAppID, redirect, facebookAppSecret, Request.QueryString["code"]);
+                var token = ParseFacebookToken(DoWebRequest(url).ReadToEnd());
+
+                var groupId = Services.Config.Current.GroupId;
+                var fbClient = new FacebookClient(token);
+                dynamic groups = fbClient.Get("me/groups");
+                foreach (dynamic group in (JsonArray)groups["data"])
+                {
+                    if (group.id != groupId) continue;
+                    SetAuthCookie(token, true, token);
+                    break;
+                }
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -38,82 +90,7 @@ namespace NBlog.Web.Controllers
             return Redirect(url);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> OpenId(LoginModel model)
-        {
-            Identifier id;
-            if (Identifier.TryParse(model.OpenID_Identifier, out id))
-            {
-                try
-                {
-                    var openId = new OpenIdRelyingParty();
-                    var returnToUrl = new Uri(Url.Action("OpenIdCallback", "Authentication", new { ReturnUrl = model.ReturnUrl }, Request.Url.Scheme), UriKind.Absolute);
-                    var requestTask = openId.CreateRequestAsync(id, Realm.AutoDetect, returnToUrl);
-
-                    await requestTask;
-                    var request = requestTask.Result;
-
-                    // add request for name and email using sreg (OpenID Simple Registration
-                    // Extension)
-                    request.AddExtension(new ClaimsRequest
-                    {
-                        Email = DemandLevel.Require,
-                        FullName = DemandLevel.Require,
-                        Nickname = DemandLevel.Require
-                    });
-
-                    // also add AX request
-                    var axRequest = new FetchRequest();
-                    axRequest.Attributes.AddRequired(WellKnownAttributes.Name.FullName);
-                    axRequest.Attributes.AddRequired(WellKnownAttributes.Name.First);
-                    axRequest.Attributes.AddRequired(WellKnownAttributes.Name.Last);
-                    axRequest.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
-                    request.AddExtension(axRequest);
-
-                    var redirectingResponseTask = request.GetRedirectingResponseAsync();
-                    await redirectingResponseTask;
-
-                    return redirectingResponseTask.Result.AsActionResult();
-                }
-                catch (ProtocolException ex)
-                {
-                    model.Message = ex.Message;
-                    return View("Login", model);
-                }
-            }
-            else
-            {
-                model.Message = "Invalid identifier";
-                return View("Login", model);
-            }
-        }
-
-        [HttpGet]
-        [ValidateInput(false)]
-        public async Task<ActionResult> OpenIdCallback(string returnUrl)
-        {
-            var model = new LoginModel { ReturnUrl = returnUrl };
-            var openId = new OpenIdRelyingParty();
-            var openIdResponseTask = openId.GetResponseAsync();
-
-            await openIdResponseTask;
-
-            var openIdResponse = openIdResponseTask.Result;
-            if (openIdResponse.Status == AuthenticationStatus.Authenticated)
-            {
-                var friendlyName = GetFriendlyName(openIdResponse);
-
-                var isPersistentCookie = true;
-                SetAuthCookie(openIdResponse.ClaimedIdentifier, isPersistentCookie, friendlyName);
-
-                return Redirect(returnUrl.AsNullIfEmpty() ?? Url.Action("Index", "Home"));
-            }
-
-            model.Message = "Sorry, login failed.";
-            return View("Login", model);
-        }
-
+        
         private void SetAuthCookie(string username, bool createPersistentCookie, string userData)
         {
             if (string.IsNullOrEmpty(username))

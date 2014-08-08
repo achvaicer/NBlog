@@ -41,13 +41,17 @@
 		<div id="topbar">
 			<div id="links" class="text-links">
                @(Model.User.IsAuthenticated ? Html.Safe("<strong>" + Model.User.FriendlyName + "</strong> |") : Html.Blank())
-               @(Model.User.IsAuthenticated ? Html.ActionLink("Sign Out", "Logout", "Authentication") : Html.ActionLink("Sign In", "Login", "Authentication"))
+               @(Model.User.IsAuthenticated ? Html.ActionLink("Sign Out", "Logout", "Authentication") : Html.ActionLink("Login with Facebook", "Facebook", "Authentication"))
 			</div>
-			<div id="search">
-				<form action="@Url.Action("Index", "Search")">
-					<input type="text" class="box" name="q" />
-				</form>
-			</div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div id="search">
+                    <form action="@Url.Action("Index", "Search")">
+                        <input type="text" class="box" name="q" />
+                    </form>
+                </div>
+            }
+			
 		</div>
 	</header>
     
@@ -66,7 +70,7 @@
     </div>	
 
 	<footer class="text-links">
-        Powered by <a href="http://chrisfulstow.com/nblog">NBlog</a> Build @BuildNumberProvider.GetBuildNumber()
+        Powered by a forked version of <a href="https://github.com/achvaicer/NBlog">NBlog</a> Build @BuildNumberProvider.GetBuildNumber()
 	</footer>
 </div>
 

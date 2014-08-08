@@ -5,7 +5,7 @@ namespace NBlog.Web.Application.Service.Entity
 {
     public class Config
     {
-        public List<string> Admins { get; set; }
+        public string GroupId { get; set; }
 
         public CloudConfig Cloud { get; set; }
 
@@ -14,6 +14,8 @@ namespace NBlog.Web.Application.Service.Entity
         public string Crossbar { get; set; }
 
         public DisqusConfig Disqus { get; set; }
+
+        public FacebookConfig Facebook { get; set; }
 
         public string GoogleAnalyticsId { get; set; }
 
@@ -56,6 +58,14 @@ namespace NBlog.Web.Application.Service.Entity
             public bool DevelopmentMode { get; set; }
 
             public string Shortname { get; set; }
+        }
+
+        public class FacebookConfig
+        {
+            public string RequestAccessToken { get; set; }
+            public string RequestCode { get; set; }
+            public string RequestUser { get; set; }
+            public string Redirect { get; set; }
         }
     }
 }

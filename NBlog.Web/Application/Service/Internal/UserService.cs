@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 using NBlog.Web.Application.Service.Entity;
+using Facebook;
 
 namespace NBlog.Web.Application.Service.Internal
 {
@@ -15,21 +16,30 @@ namespace NBlog.Web.Application.Service.Internal
             _configService = configService;
 
             var identity = HttpContext.Current.User.Identity;
-            var formsIdentity = identity as FormsIdentity;
-            var friendlyName = formsIdentity != null ? formsIdentity.Ticket.UserData : identity.Name;
-            if (string.IsNullOrEmpty(friendlyName)) { friendlyName = identity.Name; }
+            var isAdmin = false;
 
-            var isAdmin =
-                identity.IsAuthenticated
-                && _configService.Current.Admins != null
-                && _configService.Current.Admins.Contains(identity.Name, StringComparer.InvariantCultureIgnoreCase);
+            var user = new User();
 
-            var user = new User
+            if (identity.IsAuthenticated)
             {
-                FriendlyName = friendlyName, 
-                IsAuthenticated = identity.IsAuthenticated,
-                IsAdmin = isAdmin
-            };
+                var fbClient = new FacebookClient(identity.Name);
+                dynamic groups = fbClient.Get("me/groups");
+
+                foreach (dynamic group in (JsonArray)groups["data"])
+                {
+                    if (group.id != configService.Current.GroupId) continue;
+                    isAdmin = group.administrator ?? false;
+                    break;
+                }
+
+                dynamic me = fbClient.Get("me");
+                user.FacebookAccessToken = fbClient.AccessToken;
+                user.FacebookId = me.id;
+                user.FriendlyName = me.name;
+                user.IsAdmin = isAdmin;
+                user.IsAuthenticated = true;
+                user.Username = me.name;
+            }
 
             Current = user;
         }

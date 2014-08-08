@@ -6,5 +6,7 @@
         public string FriendlyName { get; set; }
         public bool IsAuthenticated { get; set; }
         public bool IsAdmin { get; set; }
+        public string FacebookAccessToken { get; set; }
+        public string FacebookId { get; set; }
     }
 }
