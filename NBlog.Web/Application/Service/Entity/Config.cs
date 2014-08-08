@@ -63,7 +63,6 @@ namespace NBlog.Web.Application.Service.Entity
             public string RequestAccessToken { get; set; }
             public string RequestCode { get; set; }
             public string RequestUser { get; set; }
-            public string Redirect { get; set; }
         }
     }
 }

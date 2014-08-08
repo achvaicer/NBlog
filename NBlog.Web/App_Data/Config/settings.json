@@ -30,7 +30,6 @@
     {
         "RequestAccessToken": "https://graph.facebook.com/oauth/access_token?client_id={0}&redirect_uri={1}&client_secret={2}&code={3}",
         "RequestCode": "https://www.facebook.com/dialog/oauth?scope=email,user_groups,user_likes&client_id={0}&redirect_uri={1}",
-        "RequestUser": "https://graph.facebook.com/me?access_token={0}",
-        "Redirect": "http://localhost:2815/authentication/facebook"
+        "RequestUser": "https://graph.facebook.com/me?access_token={0}"
     }
 }

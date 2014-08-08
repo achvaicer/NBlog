@@ -54,7 +54,7 @@ namespace NBlog.Web.Controllers
         {
 
             var facebookAppID = ConfigurationManager.AppSettings["FacebookAppID"];
-            var redirect = Services.Config.Current.Facebook.Redirect;
+            var redirect = ConfigurationManager.AppSettings["FacebookRedirectUrl"];
             var facebookAppSecret = ConfigurationManager.AppSettings["FacebookAppSecret"];
 
             if (string.IsNullOrEmpty(Request.QueryString["access_token"]) && string.IsNullOrEmpty(Request.QueryString["code"]))
