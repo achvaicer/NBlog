@@ -39,19 +39,24 @@
 		</div>
 
 		<div id="topbar">
-			<div id="links" class="text-links">
-               @(Model.User.IsAuthenticated ? Html.Safe("<strong>" + Model.User.FriendlyName + "</strong> |") : Html.Blank())
-               @(Model.User.IsAuthenticated ? Html.ActionLink("Sign Out", "Logout", "Authentication") : Html.ActionLink("Login with Facebook", "Facebook", "Authentication"))
-			</div>
             @if (User.Identity.IsAuthenticated)
             {
+                <div id="links" class="text-links">
+                    <strong>@Model.User.FriendlyName</strong>
+                    @Html.ActionLink("Sign Out", "Logout", "Authentication")
+                </div>
                 <div id="search">
                     <form action="@Url.Action("Index", "Search")">
                         <input type="text" class="box" name="q" />
                     </form>
                 </div>
             }
-			
+            else
+            {
+                <div id="links" class="text-links">
+                    <a href="@Url.Action("Facebook", "Authentication")"><img src="@Url.Content("~/Content/facebook-login.png")"/></a>
+                </div>
+            }
 		</div>
 	</header>
     
