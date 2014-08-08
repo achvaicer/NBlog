@@ -9,6 +9,7 @@ using NBlog.Web.Application.Service;
 
 namespace NBlog.Web.Controllers
 {
+    [Authorize]
     public partial class SearchController : LayoutController
     {
         public SearchController(IServices services) : base(services) { }
