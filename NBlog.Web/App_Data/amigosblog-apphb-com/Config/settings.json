@@ -1,0 +1,36 @@
+﻿{
+	"Site": "chaverimblog.apphb.com",
+	"Theme": "Default",
+	"MetaDescription": "",
+	"Heading": "Blog dos Amigos do Facebook",
+	"Title": "Blog dos Amigos do Facebook",
+	"Tagline": "",
+	"Crossbar": "Blog com conteúdo exclusivo para membros",
+	"GoogleAnalyticsId": "",
+	"TwitterUsername": "",
+	"ContactForm":
+	{
+		"RecipientName": "NBlog Admin",
+		"RecipientEmail": "nblog-admin@mailinator.com",
+		"Subject": "NBlog contact form"
+	},
+	Cloud:
+	{
+		"ConsumerKey": "DropBox_Key",
+		"ConsumerSecret": "DropBox_Secret",
+		"UserToken": "DropBox_UserToken",
+		"UserSecret": "DropBox_UserSecret"
+	},
+	Disqus:
+	{
+		"Shortname": "",
+		"DevelopmentMode": true
+	},
+    "Facebook": 
+    {
+        "RequestAccessToken": "https://graph.facebook.com/oauth/access_token?client_id={0}&redirect_uri={1}&client_secret={2}&code={3}",
+        "RequestCode": "https://www.facebook.com/dialog/oauth?scope=email,user_groups,user_likes&client_id={0}&redirect_uri={1}",
+        "RequestUser": "https://graph.facebook.com/me?access_token={0}",
+        "Redirect": "http://localhost:2815/authentication/facebook"
+    }
+}
