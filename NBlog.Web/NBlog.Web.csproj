@@ -428,6 +428,7 @@
     <Content Include="Themes\Default\Views\Web.config" />
     <Content Include="Themes\Default\Views\_Layout.cshtml" />
     <Content Include="Themes\Default\Views\_ViewStart.cshtml" />
+    <Content Include="Themes\Default\Views\Home\NotMember.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

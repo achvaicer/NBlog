@@ -36,6 +36,12 @@ namespace NBlog.Web.Controllers
         }
 
         [HttpGet]
+        public ActionResult NotMember()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public ViewResult Throw()
         {
             throw new NotImplementedException("Example exception for testing error handling.");
@@ -54,3 +60,4 @@ namespace NBlog.Web.Controllers
         }
     }
 }
+

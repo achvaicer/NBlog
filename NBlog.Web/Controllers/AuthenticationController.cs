@@ -74,8 +74,9 @@ namespace NBlog.Web.Controllers
                 {
                     if (group.id != groupId) continue;
                     SetAuthCookie(token, true, token);
-                    break;
+                    return RedirectToAction("Index", "Home");
                 }
+                return RedirectToAction("NotMember", "Home");
             }
 
             return RedirectToAction("Index", "Home");
