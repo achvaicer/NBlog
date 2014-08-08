@@ -352,7 +352,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\AdminOnlyAttribute.cs" />
+    <Compile Include="Application\Infrastructure\AdminOnlyAttribute.cs" />
     <Compile Include="Application\Infrastructure\AutofacJobFactory.cs" />
     <Compile Include="Application\Infrastructure\BuildNumberProvider.cs" />
     <Compile Include="Application\Infrastructure\DateExtensions.cs" />
@@ -417,7 +417,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="Themes\Default\Views\Authentication\Login.cshtml" />
     <Content Include="Themes\Default\Views\Contact\Confirm.cshtml" />
     <Content Include="Themes\Default\Views\Contact\Index.cshtml" />
     <Content Include="Themes\Default\Views\Entry\Delete.cshtml" />

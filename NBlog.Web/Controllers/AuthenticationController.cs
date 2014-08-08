@@ -67,7 +67,7 @@ namespace NBlog.Web.Controllers
                 var url = String.Format(Services.Config.Current.Facebook.RequestAccessToken, facebookAppID, redirect, facebookAppSecret, Request.QueryString["code"]);
                 var token = ParseFacebookToken(DoWebRequest(url).ReadToEnd());
 
-                var groupId = Services.Config.Current.GroupId;
+                var groupId = ConfigurationManager.AppSettings["GroupId"];
                 var fbClient = new FacebookClient(token);
                 dynamic groups = fbClient.Get("me/groups");
                 foreach (dynamic group in (JsonArray)groups["data"])

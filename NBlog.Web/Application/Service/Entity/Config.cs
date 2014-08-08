@@ -5,8 +5,6 @@ namespace NBlog.Web.Application.Service.Entity
 {
     public class Config
     {
-        public string GroupId { get; set; }
-
         public CloudConfig Cloud { get; set; }
 
         public ContactFormConfig ContactForm { get; set; }

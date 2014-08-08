@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Security;
 using NBlog.Web.Application.Service.Entity;
 using Facebook;
+using System.Configuration;
 
 namespace NBlog.Web.Application.Service.Internal
 {
@@ -24,10 +25,10 @@ namespace NBlog.Web.Application.Service.Internal
             {
                 var fbClient = new FacebookClient(identity.Name);
                 dynamic groups = fbClient.Get("me/groups");
-
+                var groupId = ConfigurationManager.AppSettings["FacebookGroupId"];
                 foreach (dynamic group in (JsonArray)groups["data"])
                 {
-                    if (group.id != configService.Current.GroupId) continue;
+                    if (group.id != groupId) continue;
                     isAdmin = group.administrator ?? false;
                     break;
                 }
