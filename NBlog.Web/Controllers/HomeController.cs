@@ -41,6 +41,11 @@ namespace NBlog.Web.Controllers
             return View();
         }
 
+        public ActionResult PrivacyPolicy()
+        {
+            return View();
+        }
+
         [HttpGet]
         public ViewResult Throw()
         {
