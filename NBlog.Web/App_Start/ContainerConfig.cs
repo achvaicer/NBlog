@@ -12,6 +12,7 @@ using NBlog.Web.Application.Storage.Mongo;
 using NBlog.Web.Application.Storage.Sql;
 using Quartz;
 using Quartz.Impl;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
@@ -20,7 +21,7 @@ namespace NBlog.Web
 {
     public class ContainerConfig
     {
-        private const string DefaultRepositoryName = "json";
+        private const string DefaultRepositoryName = "mongo";
 
         public static void SetUpContainer()
         {
@@ -78,8 +79,8 @@ namespace NBlog.Web
 
             builder.RegisterType<MongoRepository>().Named<IRepository>("mongo").InstancePerLifetimeScope().WithParameters(new[] {
                 new NamedParameter("keys", repositoryKeys),
-                new NamedParameter("connectionString", "mongodb://localhost"),
-                new NamedParameter("databaseName", "nblog")
+                new NamedParameter("connectionString", ConfigurationManager.AppSettings["MONGOHQ_URL"]),
+                new NamedParameter("databaseName", ConfigurationManager.AppSettings["MONGOHQ_DBNAME"])
             });
 
             builder.RegisterType<AzureBlobRepository>().Named<IRepository>("azure").InstancePerHttpRequest().WithParameters(new[] {
@@ -97,7 +98,9 @@ namespace NBlog.Web
             builder.RegisterType<EntryService>().As<IEntryService>().InstancePerLifetimeScope()
                 .WithParameter(GetResolvedParameterByName<IRepository>(DefaultRepositoryName));
 
-            builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
+            builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope()
+                .WithParameter(GetResolvedParameterByName<IRepository>(DefaultRepositoryName));
+
             builder.RegisterType<MessageService>().As<IMessageService>().InstancePerLifetimeScope();
             builder.RegisterType<ThemeService>().As<IThemeService>().InstancePerLifetimeScope();
             builder.RegisterType<CloudService>().As<ICloudService>().InstancePerLifetimeScope();
