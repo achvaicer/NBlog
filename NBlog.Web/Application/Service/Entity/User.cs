@@ -13,7 +13,7 @@ namespace NBlog.Web.Application.Service.Entity
         public string _id { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime LastUpdated { get; set; }
-        
+	public string Hash { get; set; }        
          
     }
 }
