@@ -20,11 +20,7 @@ namespace NBlog.Web.Application.Service.Internal
             _configService = configService;
             var config = _configService.Current;
 
-            _dropBoxClient = new DropNetClient(
-                apiKey: config.Cloud.ConsumerKey,
-                appSecret: config.Cloud.ConsumerSecret,
-                userToken: config.Cloud.UserToken,
-                userSecret: config.Cloud.UserSecret);
+            
         }
 
         public string ArchiveFolder(string folderPath)
